@@ -15,12 +15,17 @@ class App extends Component {
   render() {
     const handleClick = (e) => {
       this.setState(
-        () => {
-          return {
-            name: { firstName: "Yosef", lastName: "Worku" },
-            company: "Addis Software",
-          };
-        },
+        //Function
+        () =>
+          //Parameters and they also optional
+          // state, props
+          {
+            return {
+              name: { firstName: "Yosef", lastName: "Worku" },
+              company: "Addis Software",
+            };
+          },
+        //Callback and it's optional
         () => {
           console.log(this.state);
         }
