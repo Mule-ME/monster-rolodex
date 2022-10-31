@@ -1,46 +1,76 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { Component } from "react";
+import CardList from "./components/carsListComponent/CardList";
 
 class App extends Component {
   constructor() {
     super();
-
     this.state = {
-      name: { firstName: "Mulualem", lastName: "Eshetu" },
-      company: "IE Networks",
+      monsters: [],
+      searchInput: "",
     };
   }
 
+  componentDidMount() {
+    // fetch("https://jsonplaceholder.typicode.com/users")
+    //   .then((response) => response.json())
+    //   .then((users) =>
+    //     this.setState(
+    //       () => {
+    //         return { monsters: users };
+    //       },
+    //       () => {
+    //         console.log(this.state);
+    //       }
+    //     )
+    //   );
+    this.setState(
+      () => {
+        return {
+          monsters: [
+            { id: 1, name: "Nardi" },
+            { id: 2, name: "Kira" },
+            { id: 3, name: "Sura" },
+            { id: 4, name: "Zemen" },
+            { id: 5, name: "Abdu" },
+            { id: 6, name: "Abrish" },
+            { id: 7, name: "Mule" },
+          ],
+        };
+      },
+      () => {
+        console.log(this.state);
+      }
+    );
+  }
+
+  //Instead of using anonyms function and make react to call it every time it's good to declare method or function and
+  //react will build it up once while the component is render.
+  onSearchChange = (event) => {
+    const searchInput = event.target.value.toLowerCase();
+    this.setState(() => {
+      return { searchInput };
+    });
+  };
+
   render() {
-    const handleClick = (e) => {
-      this.setState(
-        //Function
-        () =>
-          //Parameters and they also optional
-          // state, props
-          {
-            return {
-              name: { firstName: "Yosef", lastName: "Worku" },
-              company: "Addis Software",
-            };
-          },
-        //Callback and it's optional
-        () => {
-          console.log(this.state);
-        }
-      );
-    };
+    //Instead of using this and this.state we can destructure it using ES6 destructuring method
+    //it will make us to write readable and clean code.
+    const { monsters, searchInput } = this.state;
+    const { onSearchChange } = this;
+
+    const filteredMonster = monsters?.filter((monster) => {
+      return monster?.name?.toLowerCase()?.includes(searchInput);
+    });
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Hii {this?.state?.name?.firstName} {this?.state?.name?.lastName}, I
-            work at {this?.state?.company}
-          </p>
-          <button onClick={(e) => handleClick(e)}>Change Name</button>
-        </header>
+        <input
+          className="search-box"
+          type="search"
+          placeholder="search monsters"
+          onChange={onSearchChange}
+        />
+        <CardList monsters={filteredMonster} />
       </div>
     );
   }
