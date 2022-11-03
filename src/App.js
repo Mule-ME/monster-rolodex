@@ -1,6 +1,7 @@
 import "./App.css";
 import { Component } from "react";
 import CardList from "./components/carsListComponent/CardList";
+import SearchBox from "./components/searchBoxComponent/searchBox";
 
 class App extends Component {
   constructor() {
@@ -12,38 +13,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // fetch("https://jsonplaceholder.typicode.com/users")
-    //   .then((response) => response.json())
-    //   .then((users) =>
-    //     this.setState(
-    //       () => {
-    //         return { monsters: users };
-    //       },
-    //       () => {
-    //         console.log(this.state);
-    //       }
-    //     )
-    //   );
-    this.setState(
-      () => {
-        return {
-          monsters: [
-            { id: 1, name: "Nardi" },
-            { id: 2, name: "Kira" },
-            { id: 3, name: "Sura" },
-            { id: 4, name: "Zemen" },
-            { id: 5, name: "Abdu" },
-            { id: 6, name: "Abrish" },
-            { id: 7, name: "Mule" },
-          ],
-        };
-      },
-      () => {
-        console.log(this.state);
-      }
-    );
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((users) =>
+        this.setState(
+          () => {
+            return { monsters: users };
+          },
+          () => {
+            //second callback is conditional
+            console.log(this.state);
+          }
+        )
+      );
   }
-
   //Instead of using anonyms function and make react to call it every time it's good to declare method or function and
   //react will build it up once while the component is render.
   onSearchChange = (event) => {
@@ -64,11 +47,11 @@ class App extends Component {
     });
     return (
       <div className="App">
-        <input
+        <h1 className="app-title">Monster rolodex</h1>
+        <SearchBox
           className="search-box"
-          type="search"
-          placeholder="search monsters"
-          onChange={onSearchChange}
+          placeholder="Search monsters..."
+          onChangeHandler={onSearchChange}
         />
         <CardList monsters={filteredMonster} />
       </div>
